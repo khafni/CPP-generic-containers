@@ -1,19 +1,36 @@
 #include <iostream>
+#include <utility>
+#include <memory>
+#include <vector>
 
-//main function of the program
+// void f(std::auto_ptr<int> p)
+// {
+//         std::cout << *p << std::endl;
+// }
+using namespace std;
 
-namespace ft {
-    int v = 69;
+template <class T>
+ostream& operator<<(ostream &strm, const auto_ptr<T> &p)
+{
+    if (p.get() == NULL)
+        strm << NULL;
+    else
+        strm << *p;
+    return strm;
 }
-
-namespace ft {
-    int e = 420;
-}
-
-int v = 3;
 
 int main()
 {
-    std::cout << "ft::v = " << ft::v << std::endl;
-    std::cout << "ft::e = " << ft::e << std::endl;
+    //std::pair<int, int> p(1, 2);
+    //std::cout << p.second << std::endl;
+    auto_ptr<int> p(new int);
+    auto_ptr<int> q;
+    *p = 69;
+
+    // f(p);
+    // cout << p << endl;
+    cout << q;
+    // std::cout << std::make_pair(3, 3).second << std::endl;
+
+    return (0);
 }
