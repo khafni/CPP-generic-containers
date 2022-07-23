@@ -2,35 +2,54 @@
 #include <utility>
 #include <memory>
 #include <vector>
+#include <cstdio>
+#include "iterators.hpp"
+#include "vector.hpp"
 
-// void f(std::auto_ptr<int> p)
-// {
-//         std::cout << *p << std::endl;
-// }
-using namespace std;
-
-template <class T>
-ostream& operator<<(ostream &strm, const auto_ptr<T> &p)
+void print_elem (int elem)
 {
-    if (p.get() == NULL)
-        strm << NULL;
-    else
-        strm << *p;
-    return strm;
+    std::cout << elem << std::endl;
 }
-
 int main()
 {
-    //std::pair<int, int> p(1, 2);
-    //std::cout << p.second << std::endl;
-    auto_ptr<int> p(new int);
-    auto_ptr<int> q;
-    *p = 69;
+    // std::cout << "wesh" << std::endl;
+    // std::vector<int>::iterator it;
+    // int *ptr = new int(5);
+    // int *ptr(NULL);
+    std::vector<int> v1;
+    v1.push_back(9);
+    v1.push_back(8);
+    v1.push_back(7);
+    std::vector<int> v;
+    v.push_back(69);
+    v.push_back(2);
+    v.push_back(3);
+    v.push_back(4);
+    v.push_back(5);
+    v.insert(std::find(v.begin(), v.end(), 4), v1.begin(), v1.end());
+    for (int i = 0, j = 0; i < 0 && j < 0; i++,j++)
+    {
+        std::cout << "i: " << i << "j: " << std::endl;
+    }
+    // std::cout << v.size() << std::endl;
+    // ft::vector<int>::iterator it = v.begin();
+    // it++;
+    // ft::vector<int>::iterator it1 = it + 3;
+    // it++; 
+    // std::vector<int>::reverse_iterator rit(it);
+    // std::cout << (it1 - it) << std::endl;
+    // std::cout << *rit << std::endl;
+    // std::cout << *(it++) << std::endl;
+    // for (size_t i = 0; i < v.size(); i++)
+        // std::cout << v[i] << std::endl;
+        
+    // int i(0);
 
-    // f(p);
-    // cout << p << endl;
-    cout << q;
-    // std::cout << std::make_pair(3, 3).second << std::endl;
+    // std::vector<int>::reverse_iterator ri(v.begin());
+    // std::cout << (ri[0]) << std::endl;
 
+    std::for_each(v.begin(), v.end(), print_elem);
+    // ptr();
+    // printf("%p\n", ptr);
     return (0);
 }
