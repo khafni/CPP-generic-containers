@@ -313,19 +313,7 @@ namespace ft
 
         iterator erase (iterator first, iterator last)
         {
-            // difference_type pos_indx = position - begin();
-            difference_type start_indx = first - begin();
-            iterator b = begin();
-            iterator e = end();
-            pointer _data_tmp;
-            for (iterator it = first; it != last; it++)
-                this->_alloc.destroy(&(*it));
-            // for (iterator it1 = first, it2 = (last++); it1 != last && it2 != e; it1++, it2++)
-            // {
-                // _alloc.construct(_data + i)
-            // } 
-            _data_tmp = _alloc.allocate(e - last);
-            
+          
         }
     };
 }
