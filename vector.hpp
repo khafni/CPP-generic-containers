@@ -294,7 +294,6 @@ namespace ft
             _alloc.deallocate(_data, _alloc_size);
             _len += n;
             this->_data = _data_tmp;
-            std::cerr << "zbii" << std::endl;
         }
 
 
@@ -306,14 +305,24 @@ namespace ft
                 _alloc.destroy(_data + i);
                 _alloc.construct(_data + i, *(_data + i + 1));
             }
+            _alloc.destroy(_data + (_len - 1));
             _len--;
-            _alloc.destroy(_data + _len + 1);
             return (iterator(_data + pos_indx));
         }
 
         iterator erase (iterator first, iterator last)
         {
-          
+            int i = 0;
+            pointer tmp = _alloc.allocate(_alloc_size);
+            for (iterator it = this->begin(); it != end(); it++)
+            {
+                if (it < first || it > last)
+                {
+                    _alloc.construct(tmp + i, *it);
+                    i++;
+                }
+            }
         }
+
     };
 }

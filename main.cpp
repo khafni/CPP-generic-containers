@@ -26,11 +26,13 @@ int main()
     v.push_back(3);
     v.push_back(4);
     v.push_back(5);
-    v.insert(std::find(v.begin(), v.end(), 4), v1.begin(), v1.end());
-    for (int i = 0, j = 0; i < 0 && j < 0; i++,j++)
-    {
-        std::cout << "i: " << i << "j: " << std::endl;
-    }
+    std::cout << *(v.erase(std::find(v.begin(), v.end(), 69))) << std::endl;
+
+    // v.insert(std::find(v.begin(), v.end(), 4), v1.begin(), v1.end());
+    // for (int i = 0, j = 0; i < 0 && j < 0; i++,j++)
+    // {
+    //     std::cout << "i: " << i << "j: " << std::endl;
+    // }
     // std::cout << v.size() << std::endl;
     // ft::vector<int>::iterator it = v.begin();
     // it++;
@@ -48,7 +50,7 @@ int main()
     // std::vector<int>::reverse_iterator ri(v.begin());
     // std::cout << (ri[0]) << std::endl;
 
-    std::for_each(v.begin(), v.end(), print_elem);
+    // std::for_each(v.begin(), v.end(), print_elem);
     // ptr();
     // printf("%p\n", ptr);
     return (0);
