@@ -299,30 +299,51 @@ namespace ft
 
         iterator erase(iterator position)
         {
+            pointer tmp = _alloc.allocate(_alloc_size);
             difference_type pos_indx = position - begin();
-            for (size_type i = pos_indx; i < _len - 1; i++)
+            for (size_type i = 0; i < pos_indx; i++)
             {
+                _alloc.construct(tmp + i, *(_data + i));
                 _alloc.destroy(_data + i);
-                _alloc.construct(_data + i, *(_data + i + 1));
             }
-            _alloc.destroy(_data + (_len - 1));
+            _alloc.destroy(_data + pos_indx);
+            for (size_type i = pos_indx + 1; i < _len; i++)
+            {
+                _alloc.construct(tmp + i - 1, *(_data + i));
+                _alloc.destroy(_data + i);
+            }
+            _data = tmp;
             _len--;
             return (iterator(_data + pos_indx));
         }
 
         iterator erase (iterator first, iterator last)
         {
-            int i = 0;
             pointer tmp = _alloc.allocate(_alloc_size);
-            for (iterator it = this->begin(); it != end(); it++)
+            difference_type first_indx = first - begin();
+            difference_type last_indx = last - begin();
+            for (size_type i = 0; i < first_indx; i++)
             {
-                if (it < first || it > last)
-                {
-                    _alloc.construct(tmp + i, *it);
-                    i++;
-                }
+                _alloc.construct(tmp + i, *(_data + i));
+                _alloc.destroy(_data + i);
             }
+            for (size_type i = first_indx; i < last_indx; i++)
+                _alloc.destroy(_data + i);
+            for (size_type i = last_indx, j = first_indx; i < _len; i++, j++)
+            {
+                _alloc.construct(tmp + (j), *(_data + i));
+                _alloc.destroy(_data + i);
+            }
+            _data = tmp;
+            _len -= (last - first);
+            return (iterator(_data + (last - begin())));
         }
 
+        void swap( vector& other )
+        {
+            std::swap(_data, other._data);
+            std::swap(_len, other._len);
+            std::swap(_alloc_size, other._alloc_size);
+        }
     };
 }
