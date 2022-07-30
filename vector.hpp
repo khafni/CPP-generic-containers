@@ -105,11 +105,24 @@ namespace ft
             return const_iterator(this->_data + _len);
         }
 
-        // reverse_iterator rbegin()
-        // {
+        reverse_iterator rbegin()
+        {
+            return reverse_iterator(end());
+        }
+        const_reverse_iterator rbegin() const
+        {
+            return const_reverse_iterator(end());
+        }
+        
+        reverse_iterator rend()
+        {
+            return reverse_iterator(begin());
+        }
 
-        // }
-        // const_reverse_iterator rbegin() const;
+        const_reverse_iterator rend() const
+        {
+            return const_reverse_iterator(begin());
+        }
 
         // Capacity
 
@@ -347,3 +360,46 @@ namespace ft
         }
     };
 }
+
+template <class T, class Alloc>
+  bool operator== (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+    {
+        if (lhs.size() != rhs.size())
+        return false;
+        for (size_t i = 0; i < lhs.size(); ++i)
+        if (lhs[i] != rhs[i])
+            return false;
+        return true;
+    }
+
+    template <class T, class Alloc>
+    bool operator!= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    template <class T, class Alloc>
+    bool operator< (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+    {
+        if (lhs.size() < rhs.size())
+            return true;
+        else if (lhs.size() > rhs.size())
+            return false;
+        else
+        {
+            for (size_t i = 0; i < lhs.size(); ++i)
+            {
+                if (lhs[i] < rhs[i])
+                    return true;
+                else if (lhs[i] > rhs[i])
+                    return false;
+            }
+            return false;
+        }
+    }
+
+    template <class T, class Alloc>
+    bool operator> (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+    {
+        return rhs < lhs;
+    }
