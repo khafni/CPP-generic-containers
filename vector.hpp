@@ -113,7 +113,7 @@ namespace ft
         {
             return const_reverse_iterator(end());
         }
-        
+
         reverse_iterator rend()
         {
             return reverse_iterator(begin());
@@ -256,7 +256,7 @@ namespace ft
 
         template <class InputIterator>
         void insert(iterator position, InputIterator first, InputIterator last)
-        {   
+        {
             difference_type pos_indx = position - begin();
             difference_type inpt_size = last - first;
             size_type new_allc = 1 + (2 * (_len + inpt_size));
@@ -277,7 +277,7 @@ namespace ft
                 _alloc.destroy(_data + i);
             _alloc.deallocate(_data, _alloc_size);
             _len += inpt_size;
-            this->_data = _data_tmp;           
+            this->_data = _data_tmp;
             std::cerr << "zbi" << std::endl;
         }
 
@@ -309,7 +309,6 @@ namespace ft
             this->_data = _data_tmp;
         }
 
-
         iterator erase(iterator position)
         {
             pointer tmp = _alloc.allocate(_alloc_size);
@@ -330,7 +329,7 @@ namespace ft
             return (iterator(_data + pos_indx));
         }
 
-        iterator erase (iterator first, iterator last)
+        iterator erase(iterator first, iterator last)
         {
             pointer tmp = _alloc.allocate(_alloc_size);
             difference_type first_indx = first - begin();
@@ -352,34 +351,33 @@ namespace ft
             return (iterator(_data + (last - begin())));
         }
 
-        void swap( vector& other )
+        void swap(vector &other)
         {
             std::swap(_data, other._data);
             std::swap(_len, other._len);
             std::swap(_alloc_size, other._alloc_size);
         }
     };
-}
 
-template <class T, class Alloc>
-  bool operator== (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+    template <class T, class Alloc>
+    bool operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
     {
         if (lhs.size() != rhs.size())
-        return false;
-        for (size_t i = 0; i < lhs.size(); ++i)
-        if (lhs[i] != rhs[i])
             return false;
+        for (size_t i = 0; i < lhs.size(); ++i)
+            if (lhs[i] != rhs[i])
+                return false;
         return true;
     }
 
     template <class T, class Alloc>
-    bool operator!= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+    bool operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
     {
         return !(lhs == rhs);
     }
 
     template <class T, class Alloc>
-    bool operator< (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+    bool operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
     {
         if (lhs.size() < rhs.size())
             return true;
@@ -399,7 +397,26 @@ template <class T, class Alloc>
     }
 
     template <class T, class Alloc>
-    bool operator> (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+    bool operator>(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
     {
         return rhs < lhs;
     }
+
+    template <class T, class Alloc>
+    bool operator<=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+    {
+        return !(lhs > rhs);
+    }
+
+    template <class T, class Alloc>
+    bool operator>=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+    {
+        return !(lhs < rhs);
+    }
+
+    template <class T, class Alloc>
+    void swap(ft::vector<T, Alloc> &lhs, ft::vector<T, Alloc> &rhs)
+    {
+        lhs.swap(rhs);
+    }
+}
