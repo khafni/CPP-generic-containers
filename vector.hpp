@@ -423,8 +423,8 @@ namespace ft
             return _alloc;
         }
     };
-}
 
+<<<<<<< HEAD
 template <class T, class Alloc>
 bool operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
 {
@@ -450,6 +450,27 @@ bool operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
     else if (lhs.size() > rhs.size())
         return false;
     else
+=======
+    template <class T, class Alloc>
+    bool operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+    {
+        if (lhs.size() != rhs.size())
+            return false;
+        for (size_t i = 0; i < lhs.size(); ++i)
+            if (lhs[i] != rhs[i])
+                return false;
+        return true;
+    }
+
+    template <class T, class Alloc>
+    bool operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    template <class T, class Alloc>
+    bool operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+>>>>>>> fb885408abb14bad2ed6b516a227bc6e10bc3e57
     {
         for (size_t i = 0; i < lhs.size(); ++i)
         {
@@ -462,6 +483,7 @@ bool operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
     }
 }
 
+<<<<<<< HEAD
 template <class T, class Alloc>
 bool operator>(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
 {
@@ -478,4 +500,29 @@ template <class T, class Alloc>
 bool operator>=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
 {
     return !(lhs < rhs);
+=======
+    template <class T, class Alloc>
+    bool operator>(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+    {
+        return rhs < lhs;
+    }
+
+    template <class T, class Alloc>
+    bool operator<=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+    {
+        return !(lhs > rhs);
+    }
+
+    template <class T, class Alloc>
+    bool operator>=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+    {
+        return !(lhs < rhs);
+    }
+
+    template <class T, class Alloc>
+    void swap(ft::vector<T, Alloc> &lhs, ft::vector<T, Alloc> &rhs)
+    {
+        lhs.swap(rhs);
+    }
+>>>>>>> fb885408abb14bad2ed6b516a227bc6e10bc3e57
 }

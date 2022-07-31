@@ -21,7 +21,7 @@ int main()
     v1.push_back(8);
     v1.push_back(7);
 
-    std::vector<int> v;
+    ft::vector<int> v;
     v.push_back(1);
     v.push_back(2);
     v.push_back(3);
@@ -36,16 +36,23 @@ int main()
     // v.erase(std::find(v.begin(), v.end(), 2));
     // std::vector<int>::iterator it1 = std::find(v.begin(), v.end(), 1);
     // std::vector<int>::iterator it2 = std::find(v.begin(), v.end(), 3);
+<<<<<<< HEAD
     // std::vector<int>::iterator it = std::find(v.begin(), v.end(), 1);
+=======
+    ft::vector<int>::iterator it = std::find(v.begin(), v.end(), 1);
+>>>>>>> fb885408abb14bad2ed6b516a227bc6e10bc3e57
     // std::cout << it[0] << std::endl;
     // std::cout << std::vector<int>::reverse_iterator(it)[-2] << std::endl;
     // int i = 0;
     // std::cout << i++ << std::endl;
+<<<<<<< HEAD
     // ft::vector<int>::iterator it3(v.end());
     // ft::vector<int>::reverse_iterator it4(it3);
     // ft::vector<int>::reverse_iterator it5(it3);
     // std::cout << v.max_size() << std::endl;
     // 1 + it3;
+=======
+>>>>>>> fb885408abb14bad2ed6b516a227bc6e10bc3e57
     // v.erase(it1, it2);
     // std::cout << *(v.erase(it1, it2)) << std::endl;
     // v.insert(std::find(v.begin(), v.end(), 4), v1.begin(), v1.end());
