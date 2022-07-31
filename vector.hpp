@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <iterator> 
 #include "iterators.hpp"
 namespace ft
 {
@@ -42,12 +43,13 @@ namespace ft
         vector(InputIterator first, InputIterator last,
                const allocator_type &alloc = allocator_type()) : _alloc(alloc)
         {
-            size_type d = std::distance(first, last);
+            size_type d = std::distance<InputIterator>(first, last);
             _data = _alloc.allocate(d);
             _len = d;
             _alloc_size = d;
             for (size_type i = 0; i < d; i++)
-                _data + i = _alloc.construct((_data + i), *(first + i));
+                _alloc.construct((_data + i), *(first + i));
+            std::cerr << "fuck" << std::endl;
         }
 
         vector(const vector &x)
@@ -113,7 +115,7 @@ namespace ft
         {
             return const_reverse_iterator(end());
         }
-        
+
         reverse_iterator rend()
         {
             return reverse_iterator(begin());
@@ -155,6 +157,39 @@ namespace ft
         size_type capacity() const
         {
             return (this->_alloc_size);
+        }
+
+        size_type max_size() const
+        {
+            return (_alloc.max_size());
+        }
+
+        void resize(size_type n, value_type val = value_type())
+        {
+            if (n < _len)
+            {
+                for (size_type i = n; i < _len; i++)
+                    _alloc.destroy(_data + i);
+                _len = n;
+            }
+            else if (n > _len && n <= _alloc_size)
+            {
+                for (size_type i = _len; i < n; i++)
+                    _alloc.construct(_data + i, val);
+                _len = n;
+            }
+            else
+            {
+                pointer tmp = _alloc.allocate(n);
+                for (size_type i = 0; i < _len; i++)
+                    _alloc.construct((tmp + i), *(this->_data + i));
+                for (size_type i = 0; i < _len; i++)
+                    _alloc.destroy(_data + i);
+                _alloc.deallocate(_data, _alloc_size);
+                _data = tmp;
+                _alloc_size = n;
+                _len = n;
+            }
         }
 
         // Element access
@@ -203,6 +238,31 @@ namespace ft
         }
 
         // Modifiers
+        template <class InputIterator>
+        void assign(InputIterator first, InputIterator last)
+        {
+            for (size_type i = 0; i < _len; i++)
+                _alloc.destroy(_data + i);
+            _alloc.deallocate(_data, _alloc_size);
+            _alloc_size = std::distance(first, last);
+            _len = _alloc_size;
+            _data = _alloc.allocate(_alloc_size);
+            for (size_type i = 0; i < _len; i++)
+                _alloc.construct((_data + i), *(first + i));
+        }
+
+        void assign(size_type n, const value_type &val)
+        {
+            for (size_type i = 0; i < _len; i++)
+                _alloc.destroy(_data + i);
+            _alloc.deallocate(_data, _alloc_size);
+            _alloc_size = n;
+            _len = n;
+            _data = _alloc.allocate(_alloc_size);
+            for (size_type i = 0; i < _len; i++)
+                _alloc.construct(_data + i, val);
+        }
+
         void clear()
         {
             for (int i = 0; i < _len; i++)
@@ -256,7 +316,7 @@ namespace ft
 
         template <class InputIterator>
         void insert(iterator position, InputIterator first, InputIterator last)
-        {   
+        {
             difference_type pos_indx = position - begin();
             difference_type inpt_size = last - first;
             size_type new_allc = 1 + (2 * (_len + inpt_size));
@@ -277,7 +337,7 @@ namespace ft
                 _alloc.destroy(_data + i);
             _alloc.deallocate(_data, _alloc_size);
             _len += inpt_size;
-            this->_data = _data_tmp;           
+            this->_data = _data_tmp;
             std::cerr << "zbi" << std::endl;
         }
 
@@ -309,7 +369,6 @@ namespace ft
             this->_data = _data_tmp;
         }
 
-
         iterator erase(iterator position)
         {
             pointer tmp = _alloc.allocate(_alloc_size);
@@ -330,7 +389,7 @@ namespace ft
             return (iterator(_data + pos_indx));
         }
 
-        iterator erase (iterator first, iterator last)
+        iterator erase(iterator first, iterator last)
         {
             pointer tmp = _alloc.allocate(_alloc_size);
             difference_type first_indx = first - begin();
@@ -352,54 +411,71 @@ namespace ft
             return (iterator(_data + (last - begin())));
         }
 
-        void swap( vector& other )
+        void swap(vector &other)
         {
             std::swap(_data, other._data);
             std::swap(_len, other._len);
             std::swap(_alloc_size, other._alloc_size);
         }
+        // Allocator:
+        allocator_type get_allocator() const
+        {
+            return _alloc;
+        }
     };
 }
 
 template <class T, class Alloc>
-  bool operator== (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
-    {
-        if (lhs.size() != rhs.size())
+bool operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+    if (lhs.size() != rhs.size())
         return false;
-        for (size_t i = 0; i < lhs.size(); ++i)
+    for (size_t i = 0; i < lhs.size(); ++i)
         if (lhs[i] != rhs[i])
             return false;
+    return true;
+}
+
+template <class T, class Alloc>
+bool operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+    return !(lhs == rhs);
+}
+
+template <class T, class Alloc>
+bool operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+    if (lhs.size() < rhs.size())
         return true;
-    }
-
-    template <class T, class Alloc>
-    bool operator!= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
+    else if (lhs.size() > rhs.size())
+        return false;
+    else
     {
-        return !(lhs == rhs);
-    }
-
-    template <class T, class Alloc>
-    bool operator< (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
-    {
-        if (lhs.size() < rhs.size())
-            return true;
-        else if (lhs.size() > rhs.size())
-            return false;
-        else
+        for (size_t i = 0; i < lhs.size(); ++i)
         {
-            for (size_t i = 0; i < lhs.size(); ++i)
-            {
-                if (lhs[i] < rhs[i])
-                    return true;
-                else if (lhs[i] > rhs[i])
-                    return false;
-            }
-            return false;
+            if (lhs[i] < rhs[i])
+                return true;
+            else if (lhs[i] > rhs[i])
+                return false;
         }
+        return false;
     }
+}
 
-    template <class T, class Alloc>
-    bool operator> (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs)
-    {
-        return rhs < lhs;
-    }
+template <class T, class Alloc>
+bool operator>(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+    return rhs < lhs;
+}
+
+template <class T, class Alloc>
+bool operator<=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+    return !(lhs > rhs);
+}
+
+template <class T, class Alloc>
+bool operator>=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs)
+{
+    return !(lhs < rhs);
+}

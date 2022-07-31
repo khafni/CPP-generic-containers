@@ -13,7 +13,7 @@ void print_elem (int elem)
 int main()
 {
     // std::cout << "wesh" << std::endl;
-    // std::vector<int>::iterator it;
+    // std::vector<int>::iteratorh=1§§§§§§jm  
     // int *ptr = new int(5);
     // int *ptr(NULL);
     std::vector<int> v1;
@@ -29,15 +29,23 @@ int main()
     v.push_back(5);
     v.push_back(6);
     v.push_back(7);
+    ft::vector<int> v2(3, 3);
+
+    // v.assign(v1.begin(), v1.end());
     // std::cout << *(v.erase(std::find(v.begin(), v.end(), 2))) << std::endl;
     // v.erase(std::find(v.begin(), v.end(), 2));
     // std::vector<int>::iterator it1 = std::find(v.begin(), v.end(), 1);
     // std::vector<int>::iterator it2 = std::find(v.begin(), v.end(), 3);
-    std::vector<int>::iterator it = std::find(v.begin(), v.end(), 1);
-    std::cout << it[0] << std::endl;
-    std::cout << std::vector<int>::reverse_iterator(it)[-2] << std::endl;
-    int i = 0;
-    std::cout << i++ << std::endl;
+    // std::vector<int>::iterator it = std::find(v.begin(), v.end(), 1);
+    // std::cout << it[0] << std::endl;
+    // std::cout << std::vector<int>::reverse_iterator(it)[-2] << std::endl;
+    // int i = 0;
+    // std::cout << i++ << std::endl;
+    // ft::vector<int>::iterator it3(v.end());
+    // ft::vector<int>::reverse_iterator it4(it3);
+    // ft::vector<int>::reverse_iterator it5(it3);
+    // std::cout << v.max_size() << std::endl;
+    // 1 + it3;
     // v.erase(it1, it2);
     // std::cout << *(v.erase(it1, it2)) << std::endl;
     // v.insert(std::find(v.begin(), v.end(), 4), v1.begin(), v1.end());
@@ -62,7 +70,7 @@ int main()
     // std::vector<int>::reverse_iterator ri(v.begin());
     // std::cout << (ri[0]) << std::endl;
 
-    // std::for_each(v.begin(), v.end(), print_elem);
+    std::for_each(v2.begin(), v2.end(), print_elem);
     // std::for_each(v1.begin(), v1.end(), print_elem);
     // ptr();
     // printf("%p\n", ptr);

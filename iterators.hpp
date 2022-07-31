@@ -22,6 +22,14 @@ namespace ft
         random_access_iterator() : _ptr(NULL) {}
         // constructor with pointer
         random_access_iterator(pointer ptr) : _ptr(ptr) {}
+        
+        //copy constructor
+        template <typename ITE>
+        random_access_iterator(const ITE &other)
+        {
+            _ptr = other.base();
+        }
+        
         random_access_iterator &operator=(const random_access_iterator &other)
         {
             _ptr = other._ptr;
@@ -50,11 +58,12 @@ namespace ft
             return (_ptr);
         }
 
-        random_access_iterator operator+(const difference_type n) const
+        random_access_iterator operator+(const difference_type &n) const
         {
             random_access_iterator rai = *this;
             rai._ptr += n;
             return (rai);
+           // return (_ptr + n);
         }
 
         // random_access_iterator operator+(const random_access_iterator &other) const
@@ -64,7 +73,7 @@ namespace ft
         //     return (rai);
         // }
 
-        random_access_iterator operator-(const difference_type n) const
+        random_access_iterator operator-(const difference_type &n) const
         {
             random_access_iterator rai = *this;
             rai._ptr -= n;
@@ -92,13 +101,24 @@ namespace ft
             return (rai);
         }
 
-        random_access_iterator operator--() const
+        random_access_iterator operator--()
+        {
+            _ptr--;
+            return (*this);
+        }
+
+        random_access_iterator operator--(int)
         {
             random_access_iterator rai = *this;
-            rai._ptr -= 1;
+            rai._ptr--;
             return (rai);
         }
 
+        value_type* base() const
+        {
+            return (_ptr);
+        }
+        
         bool operator<(const random_access_iterator &other) const
         {
             return (_ptr < other._ptr);
@@ -162,6 +182,12 @@ namespace ft
             base_iterator = other.base_iterator;
             return (*this);
         }
+        reverse_iterator &operator=(const iterator_type &it)
+        {
+            base_iterator = it;
+            return (*this);
+        }
+
         virtual ~reverse_iterator() {}
 
         iterator_type base()
@@ -227,6 +253,8 @@ namespace ft
             return (ri);
         }
 
+     
+
         reverse_iterator &operator+=(const difference_type n)
         {
             this->base() -= n;
@@ -287,5 +315,23 @@ namespace ft
         {
             return (x.base() <= y.base());
         }
-    
+    template <class container>
+    random_access_iterator<container> operator+(int n, const random_access_iterator<container> &it)
+    {
+        random_access_iterator<container> rai(it + n);
+        return (rai);
+    }
+
+    template <class Iterator>
+    reverse_iterator<Iterator> operator+(int n, const reverse_iterator<Iterator> &it)
+    {
+        reverse_iterator<Iterator> rai(it + n);
+        return (rai);
+    }
+
+    template <class Iterator>
+    typename reverse_iterator<Iterator>::difference_type operator-(reverse_iterator<Iterator> &it1, reverse_iterator<Iterator> &it2)
+    {
+        return it1.base() - it2.base();
+    }
 }
