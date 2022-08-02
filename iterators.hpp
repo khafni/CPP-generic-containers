@@ -24,11 +24,20 @@ namespace ft
         random_access_iterator(pointer ptr) : _ptr(ptr) {}
         
         //copy constructor
+        // <template <
+        // random_access_iterator(const random_access_iterator<Container> &other) : _ptr(other._ptr) {}
         template <typename ITE>
-        random_access_iterator(const ITE &other)
+        random_access_iterator(const random_access_iterator<ITE> &other)
         {
-            _ptr = other.base();
+            *this = other.base();
         }
+        
+        // template <typename ITE>
+        // random_access_iterator(const ITE &other)
+        // {
+        //     _ptr = other->base();
+        // }
+
         
         random_access_iterator &operator=(const random_access_iterator &other)
         {
@@ -66,12 +75,12 @@ namespace ft
            // return (_ptr + n);
         }
 
-        // random_access_iterator operator+(const random_access_iterator &other) const
-        // {
-        //     random_access_iterator rai = *this;
-        //     rai._ptr += other._ptr;
-        //     return (rai);
-        // }
+        random_access_iterator operator+(const random_access_iterator &other) const
+        {
+            random_access_iterator rai = *this;
+            rai._ptr += other._ptr;
+            return (rai);
+        }
 
         random_access_iterator operator-(const difference_type &n) const
         {
@@ -97,7 +106,7 @@ namespace ft
         random_access_iterator operator++(int)
         {
             random_access_iterator rai = *this;
-            rai._ptr++;
+            ++_ptr;
             return (rai);
         }
 
@@ -110,11 +119,11 @@ namespace ft
         random_access_iterator operator--(int)
         {
             random_access_iterator rai = *this;
-            rai._ptr--;
+            --_ptr;
             return (rai);
         }
 
-        value_type* base() const
+        pointer base() const
         {
             return (_ptr);
         }
@@ -175,32 +184,36 @@ namespace ft
 
     public:
         reverse_iterator() : base_iterator() {}
+        template <typename ITE>
+        reverse_iterator (const reverse_iterator<ITE> &other) : base_iterator(other.base()) {}
         reverse_iterator(const iterator_type &it) : base_iterator(it) {}
         reverse_iterator(const reverse_iterator &other) : base_iterator(other.base_iterator) {}
-        reverse_iterator &operator=(const reverse_iterator &other)
+        template <typename IT>
+        reverse_iterator &operator=(const reverse_iterator<IT> &other)
         {
-            base_iterator = other.base_iterator;
+            base_iterator = other.base();
             return (*this);
         }
-        reverse_iterator &operator=(const iterator_type &it)
-        {
-            base_iterator = it;
-            return (*this);
-        }
+
+        // reverse_iterator &operator=(const iterator_type &it)
+        // {
+        //     base_iterator = it;
+        //     return (*this);
+        // }
 
         virtual ~reverse_iterator() {}
 
-        iterator_type base()
+        iterator_type base() const
         {
-            return base_iterator;
+            return (base_iterator);
         }
         // For a reverse iterator r constructed
         // from an iterator i, the relationship
         //  &*r == &*(i-1) is always true
         //(as long as r is dereferenceable);
         reference operator*() const
-        {
-            return *(base()--);
+        { 
+            return *(iterator_type(base_iterator - 1));
         }
 
         pointer operator->() const
@@ -222,48 +235,46 @@ namespace ft
         reverse_iterator operator++(int)
         {
             reverse_iterator ri = *this;
-            ri.base()--;
+            ++ri.base_iterator;
             return (ri);
         }
 
         reverse_iterator &operator--()
         {
-            base()++;
+            base_iterator++;
             return (*this);
         }
 
         reverse_iterator operator--(int)
         {
             reverse_iterator ri = *this;
-            ri.base()--;
+            --ri.base_iterator;
             return (ri);
         }
 
         reverse_iterator operator+(const difference_type n) const
         {
-            reverse_iterator ri = *this;
-            ri.base() -= n;
-            return (ri);
+            return (reverse_iterator(base_iterator - n));
         }
 
         reverse_iterator operator-(const difference_type n) const
         {
-            reverse_iterator ri = *this;
-            ri.base() += n;
-            return (ri);
+            return (reverse_iterator(base_iterator + n));
         }
 
      
 
         reverse_iterator &operator+=(const difference_type n)
         {
-            this->base() -= n;
+            // std::cout << "zbi" << std::endl;
+            this->base_iterator -= n;
+            // this->base() -= n;
             return (*this);
         }
 
         reverse_iterator &operator-=(const difference_type n)
         {
-            this->base() += n;
+            this->base_iterator += n;
             return (*this);
         }
     };
@@ -323,15 +334,16 @@ namespace ft
     }
 
     template <class Iterator>
-    reverse_iterator<Iterator> operator+(int n, const reverse_iterator<Iterator> &it)
+    reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n, const reverse_iterator<Iterator> &it)
     {
-        reverse_iterator<Iterator> rai(it + n);
+        reverse_iterator<Iterator> rai(it);
+        rai += n;
         return (rai);
     }
 
     template <class Iterator>
     typename reverse_iterator<Iterator>::difference_type operator-(reverse_iterator<Iterator> &it1, reverse_iterator<Iterator> &it2)
     {
-        return it1.base() - it2.base();
+        return it2.base().base() - it1.base().base();
     }
 }
