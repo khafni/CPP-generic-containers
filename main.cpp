@@ -5,6 +5,7 @@
 #include <cstdio>
 #include "iterators.hpp"
 #include "vector.hpp"
+#include "stack.hpp"
 #include <iomanip>
 void print_elem (int elem)
 {

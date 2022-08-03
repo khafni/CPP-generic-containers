@@ -44,7 +44,6 @@ namespace ft
             _alloc_size = d;
             for (size_type i = 0; i < d; i++)
                 _alloc.construct((_data + i), *(first + i));
-            std::cerr << "fuck" << std::endl;
         }
 
 
@@ -342,7 +341,6 @@ namespace ft
             _alloc.deallocate(_data, _alloc_size);
             _len += inpt_size;
             this->_data = _data_tmp;
-            std::cerr << "zbi" << std::endl;
         }
 
         void insert(iterator position, size_type n, const value_type &val)
