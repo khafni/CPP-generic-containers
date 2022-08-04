@@ -12,7 +12,6 @@ namespace ft
     {
         public:
             typedef Key key_type;
-            typedef T mapped_type;
-            
+            typedef T mapped_type; 
     };
 }
