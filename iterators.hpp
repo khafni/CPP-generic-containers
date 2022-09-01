@@ -13,10 +13,8 @@ namespace ft
         typedef typename iterator_traits<Container *>::iterator_category iterator_category;
         typedef typename iterator_traits<Container *>::pointer pointer;
         typedef typename iterator_traits<Container *>::reference reference;
-
     protected:
         pointer _ptr;
-
     public:
         // default constructor
         random_access_iterator() : _ptr(NULL) {}
@@ -347,3 +345,8 @@ namespace ft
         return it2.base().base() - it1.base().base();
     }
 }
+
+class bst_iterator
+{
+    
+};
