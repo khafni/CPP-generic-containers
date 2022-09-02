@@ -1,8 +1,21 @@
 #pragma once
 #include "iterator_traits.hpp"
+#include "iterator_tags.hpp"
 #include <algorithm>
 namespace ft
 {
+
+    template <class Category,
+    class T,
+    class Distance = std::ptrdiff_t,
+    class Pointer = T*,
+    class Refrence = T&
+    > struct iterator {
+        typedef Category iterator_category;
+        typedef T value_type;
+        typedef Distance difference_type;
+        typedef Refrence refrence;
+    };
 
     template <class Container>
     class random_access_iterator
@@ -346,7 +359,17 @@ namespace ft
     }
 }
 
-class bst_iterator
+template <class T, class Compare>
+class bst_iterator: ft::iterator<ft::bidirectional_iterator_tag, T>
 {
-    
+    T * _node;
+    Compare _comp;
+public:
+    typedef ft::iterator<ft::bidirectional_iterator_tag, T>::value_type value_type;
+    typedef ft::iterator<ft::bidirectional_iterator_tag, T>::difference_type difference_type;
+    typedef ft::iterator<ft::bidirectional_iterator_tag, T>::pointer pointer;
+    typedef ft::iterator<ft::bidirectional_iterator_tag, T>::reference reference;
+    typedef ft::iterator<ft::bidirectional_iterator_tag, T>::iterator_category iterator_category;
+
+
 };
